@@ -46,12 +46,17 @@ class _SignUpPageState extends State<SignUpPage> {
             child: ListView(
               padding: EdgeInsets.zero,
               children: [
-                SizedBox(height: 115.h),
+                Center(
+                  child: Padding(
+                    padding: EdgeInsets.only(bottom: 45.h),
+                    child: Image.asset("assets/signin.jpg", height: 340.h),
+                  ),
+                ),
                 Text(
-                  "Create your\nAccount",
+                  "Create your Account",
                   style: TextStyle(
                     color: Colors.black,
-                    fontSize: 40.sp,
+                    fontSize: 38.sp,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -63,7 +68,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     fontWeight: FontWeight.normal,
                   ),
                 ),
-                SizedBox(height: 230.h),
+                SizedBox(height: 15.h),
                 EmailTextField(
                   onchange: (data) {
                     email = data;
@@ -118,6 +123,7 @@ class _SignUpPageState extends State<SignUpPage> {
                 ),
                 SizedBox(height: 10.h),
                 const HaveAccountRow(),
+                SizedBox(height: 15.h),
               ],
             ),
           ),

@@ -21,20 +21,25 @@ class IntroPage extends StatelessWidget {
                 child: Image.asset("assets/intro.jpg", height: 340.h),
               ),
             ),
-            Text(
-              "Welcome to BMI Cal+",
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 36.sp,
-                fontWeight: FontWeight.bold,
+            Center(
+              child: Text(
+                "Welcome to BMI Cal+",
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 36.sp,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
-            Text(
-              "Best guide for calculating\n   your body mass index.",
-              style: TextStyle(
-                color: Colors.grey.shade900,
-                fontSize: 26.sp,
-                fontWeight: FontWeight.normal,
+            Center(
+              child: Text(
+                "Best guide for calculating\nyour body mass index.",
+                style: TextStyle(
+                  color: Colors.grey.shade900,
+                  fontSize: 26.sp,
+                  fontWeight: FontWeight.normal,
+                ),
+                textAlign: TextAlign.center,
               ),
             ),
             SizedBox(height: 135.h),

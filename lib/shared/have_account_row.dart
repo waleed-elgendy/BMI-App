@@ -1,3 +1,4 @@
+import 'package:bmi_app/pages/signin_page.dart';
 import 'package:bmi_app/shared/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -18,7 +19,11 @@ class HaveAccountRow extends StatelessWidget {
         ),
         GestureDetector(
           onTap: () {
-            Navigator.pop(context);
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const SignInPage(),
+                ));
           },
           child: Text(
             " Sign in",

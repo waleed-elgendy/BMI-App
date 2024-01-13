@@ -95,6 +95,7 @@ class _SignInPageState extends State<SignInPage> {
                             MaterialPageRoute(builder: (context) {
                           return HomePage(
                             user: email!,
+                            selectIndex: 0,
                           );
                         }), (route) => false);
                       } catch (e) {
@@ -115,6 +116,7 @@ class _SignInPageState extends State<SignInPage> {
                 ),
                 SizedBox(height: 10.h),
                 const SignupNeedRow(),
+                SizedBox(height: 15.h),
               ],
             ),
           ),

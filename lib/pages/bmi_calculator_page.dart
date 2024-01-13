@@ -8,7 +8,6 @@ import 'package:bmi_app/shared/constants.dart';
 import 'package:bmi_app/shared/custom_button.dart';
 import 'package:bmi_app/shared/gender_row.dart';
 import 'package:bmi_app/shared/height_weight_card.dart';
-import 'package:bmi_app/shared/logout_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -40,22 +39,6 @@ class _BMICalculatorPageState extends State<BMICalculatorPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey.shade200,
-      appBar: AppBar(
-        scrolledUnderElevation: 0,
-        elevation: 0,
-        backgroundColor: Colors.transparent,
-        centerTitle: true,
-        title: Text(
-          "BMI Calculator",
-          style: TextStyle(
-              color: Colors.black,
-              fontWeight: FontWeight.bold,
-              fontSize: 32.sp),
-        ),
-        actions: const [
-          LogOutButton()
-        ],
-      ),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 30.w),
         child: Form(
@@ -64,9 +47,23 @@ class _BMICalculatorPageState extends State<BMICalculatorPage> {
             children: [
               const GenderRow(),
               SizedBox(height: 12.h),
-              const AgeCard(),
+              AgeCard(
+                controller1: controller1,
+                onchange: (data) {
+                  age = double.parse(data);
+                },
+              ),
               SizedBox(height: 10.h),
-              const HeightAndWeightCard(),
+              HeightAndWeightCard(
+                controller2: controller2,
+                controller3: controller3,
+                onchange1: (data) {
+                  height = double.parse(data);
+                },
+                onchange2: (data) {
+                  weight = double.parse(data);
+                },
+              ),
               SizedBox(height: 15.h),
               CustomButton(
                 text: "Calculate",
@@ -80,7 +77,7 @@ class _BMICalculatorPageState extends State<BMICalculatorPage> {
                   } else {
                     if (formKey.currentState!.validate()) {
                       try {
-                        await storeResult(context,widget.user);
+                        await storeResult(context, widget.user);
                       } catch (e) {
                         showSnackBar(
                           context,
@@ -101,4 +98,3 @@ class _BMICalculatorPageState extends State<BMICalculatorPage> {
     );
   }
 }
-

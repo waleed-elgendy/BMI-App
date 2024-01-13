@@ -1,12 +1,15 @@
-import 'package:bmi_app/pages/bmi_calculator_page.dart';
 import 'package:bmi_app/shared/user_input_data.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 class AgeCard extends StatelessWidget {
   const AgeCard({
     super.key,
+    required this.onchange,
+    required this.controller1,
   });
-
+  final void Function(String)? onchange;
+  final TextEditingController? controller1;
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -20,9 +23,7 @@ class AgeCard extends StatelessWidget {
             controller: controller1,
             text1: 'Age',
             text2: "years",
-            onChange: (data) {
-              age = double.parse(data);
-            },
+            onChange: onchange,
             validate: (data) {
               if (data!.isEmpty) {
                 return "field is required";
