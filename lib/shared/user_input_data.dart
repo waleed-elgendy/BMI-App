@@ -5,9 +5,12 @@ class UserData extends StatelessWidget {
   const UserData({
     super.key,
     required this.text1,
-    required this.text2,
+    required this.text2,required this.onChange,required this.validate,required this.controller,
   });
   final String text1, text2;
+  final void Function(String)? onChange;
+  final String? Function(String?)? validate;
+  final TextEditingController? controller;
 
   @override
   Widget build(BuildContext context) {
@@ -30,13 +33,14 @@ class UserData extends StatelessWidget {
               ),
             ),
             Expanded(
-              flex: 1,
-              child: Padding(
-                padding: EdgeInsets.only(left: 20, right: 65.w),
-                child: SizedBox(
-                  height: 40.h,
+              child: SizedBox(
+                child: Padding(
+                  padding: EdgeInsets.only(left: 20, right: 65.w),
                   child: TextFormField(
+                    controller: controller,
                     keyboardType: TextInputType.number,
+                    onChanged: onChange,
+                    validator: validate,
                     style: TextStyle(
                         fontSize: 18.sp,
                         fontWeight: FontWeight.bold,
@@ -44,7 +48,8 @@ class UserData extends StatelessWidget {
                     decoration: InputDecoration(
                       fillColor: Colors.grey.shade400,
                       filled: true,
-                      contentPadding: EdgeInsets.symmetric(horizontal: 18.w),
+                      isDense: true,
+                      contentPadding: EdgeInsets.symmetric(horizontal: 18.w,vertical: 3.5),
                       enabledBorder: OutlineInputBorder(
                         borderSide: BorderSide(color: Colors.grey.shade400),
                         borderRadius: BorderRadius.all(

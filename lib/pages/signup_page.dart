@@ -3,9 +3,10 @@
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:bmi_app/helper/show_snack_bar.dart';
 import 'package:bmi_app/pages/signin_page.dart';
-import 'package:bmi_app/shared%20widgets/constants.dart';
-import 'package:bmi_app/shared%20widgets/custom_button.dart';
-import 'package:bmi_app/shared%20widgets/custom_text_field.dart';
+import 'package:bmi_app/shared/constants.dart';
+import 'package:bmi_app/shared/custom_button.dart';
+import 'package:bmi_app/shared/custom_text_field.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -215,8 +216,13 @@ class _SignUpPageState extends State<SignUpPage> {
     );
   }
 
-  Future<void> registerUser() async {
+  Future<void> registerUser()  async {
     await FirebaseAuth.instance
-        .createUserWithEmailAndPassword(email: email!, password: pass!);
+          .createUserWithEmailAndPassword(email: email!, password: pass!);
+    CollectionReference users = FirebaseFirestore.instance.collection("users");
+    await users.doc(email).set({
+      'email': email,
+    });
+
   }
 }

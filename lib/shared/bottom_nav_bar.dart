@@ -1,4 +1,4 @@
-import 'package:bmi_app/shared%20widgets/nav_bar_icon.dart';
+import 'package:bmi_app/shared/nav_bar_icon.dart';
 import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable

@@ -28,7 +28,7 @@ class _AuthWidgetState extends State<AuthWidget> {
       if (token == null) {
         return const IntroPage();
     }else {
-      return HomePage(/*user: user!*/);
+      return  HomePage(user: user!,);
     }
   }
 }

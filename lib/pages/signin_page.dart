@@ -4,9 +4,9 @@ import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:bmi_app/helper/show_snack_bar.dart';
 import 'package:bmi_app/pages/home_page.dart';
 import 'package:bmi_app/pages/signup_page.dart';
-import 'package:bmi_app/shared%20widgets/constants.dart';
-import 'package:bmi_app/shared%20widgets/custom_button.dart';
-import 'package:bmi_app/shared%20widgets/custom_text_field.dart';
+import 'package:bmi_app/shared/constants.dart';
+import 'package:bmi_app/shared/custom_button.dart';
+import 'package:bmi_app/shared/custom_text_field.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -163,9 +163,7 @@ class _SignInPageState extends State<SignInPage> {
                         await loginUser();
                         Navigator.pushAndRemoveUntil(context,
                             MaterialPageRoute(builder: (context) {
-                          return HomePage(
-                              /*user: email!,*/
-                              );
+                          return HomePage(user: email!,);
                         }), (route) => false);
                       } catch (e) {
                         showSnackBar(
@@ -221,7 +219,9 @@ class _SignInPageState extends State<SignInPage> {
         .signInWithEmailAndPassword(email: email!, password: pass!);
     var token = await FirebaseAuth.instance.currentUser!.getIdToken();
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setString('token', token.toString());
-    await prefs.setString('user', email!);
+    Future.wait([
+      prefs.setString('token', token.toString()),
+      prefs.setString('user', email!)
+    ]);
   }
 }

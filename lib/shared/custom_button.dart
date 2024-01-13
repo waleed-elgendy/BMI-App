@@ -1,4 +1,4 @@
-import 'package:bmi_app/shared%20widgets/constants.dart';
+import 'package:bmi_app/shared/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 

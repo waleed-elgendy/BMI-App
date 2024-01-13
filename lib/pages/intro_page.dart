@@ -1,5 +1,6 @@
 import 'package:bmi_app/pages/signin_page.dart';
-import 'package:bmi_app/shared%20widgets/custom_button.dart';
+import 'package:bmi_app/pages/signup_page.dart';
+import 'package:bmi_app/shared/custom_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -50,10 +51,17 @@ class IntroPage extends StatelessWidget {
             SizedBox(
               height: 15.h,
             ),
-            const CustomButton(
+             CustomButton(
               text: "Sign up",
               color: Colors.white,
               textColor: Colors.black,
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const SignUpPage(),
+                    ));
+              },
             ),
           ],
         ),
