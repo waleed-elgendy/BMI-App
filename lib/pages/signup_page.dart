@@ -2,12 +2,13 @@
 
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:bmi_app/helper/show_snack_bar.dart';
+import 'package:bmi_app/helper/signin_signup_functions.dart';
 import 'package:bmi_app/pages/signin_page.dart';
 import 'package:bmi_app/shared/constants.dart';
 import 'package:bmi_app/shared/custom_button.dart';
-import 'package:bmi_app/shared/custom_text_field.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:bmi_app/shared/email_text_field.dart';
+import 'package:bmi_app/shared/have_account_row.dart';
+import 'package:bmi_app/shared/password_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
@@ -45,9 +46,7 @@ class _SignUpPageState extends State<SignUpPage> {
             child: ListView(
               padding: EdgeInsets.zero,
               children: [
-                SizedBox(
-                  height: 115.h,
-                ),
+                SizedBox(height: 115.h),
                 Text(
                   "Create your\nAccount",
                   style: TextStyle(
@@ -65,88 +64,18 @@ class _SignUpPageState extends State<SignUpPage> {
                   ),
                 ),
                 SizedBox(height: 230.h),
-                CustomTextField(
-                  validate: (data) {
-                    if (data!.isEmpty) {
-                      return "field is required";
-                    }
-                    return null;
-                  },
+                EmailTextField(
                   onchange: (data) {
                     email = data;
                   },
-                  obscure: false,
-                  hint: "Enter your E-mail",
-                  textColor: primaryColor,
-                  keyType: TextInputType.emailAddress,
-                  fill: false,
-                  label: SizedBox(
-                    width: 103.w,
-                    child: Row(
-                      children: [
-                        Icon(
-                          Icons.email_outlined,
-                          color: primaryColor,
-                          size: 30.r,
-                        ),
-                        Text(
-                          "  E-mail",
-                          style:
-                              TextStyle(color: primaryColor, fontSize: 20.sp),
-                        ),
-                      ],
-                    ),
-                  ),
                 ),
                 SizedBox(height: 12.h),
-                CustomTextField(
-                  validate: (data) {
-                    if (data!.isEmpty) {
-                      return "field is required";
-                    }
-                    return null;
-                  },
+                PasswordTextField(
                   onchange: (data) {
                     pass = data;
                   },
-                  hint: "Enter your Password",
-                  fill: false,
-                  textColor: primaryColor,
-                  obscure: passobsure,
-                  label: SizedBox(
-                    width: 135.w,
-                    child: Row(
-                      children: [
-                        Icon(
-                          Icons.lock,
-                          color: primaryColor,
-                          size: 30.r,
-                        ),
-                        Text(
-                          "  Password",
-                          style:
-                              TextStyle(color: primaryColor, fontSize: 20.sp),
-                        ),
-                      ],
-                    ),
-                  ),
-                  suffix: InkWell(
-                    highlightColor: const Color(0xffF8F8F8),
-                    splashColor: const Color(0xffF8F8F8),
-                    child: Icon(
-                      passobsure ? Icons.visibility_off : Icons.visibility,
-                      color: Colors.grey,
-                    ),
-                    onTap: () {
-                      setState(() {
-                        passobsure = !passobsure;
-                      });
-                    },
-                  ),
                 ),
-                SizedBox(
-                  height: 15.h,
-                ),
+                SizedBox(height: 15.h),
                 CustomButton(
                   text: "Sign Up",
                   onTap: () async {
@@ -157,7 +86,7 @@ class _SignUpPageState extends State<SignUpPage> {
                         },
                       );
                       try {
-                        await registerUser();
+                        await registerUser(email: email!, pass: pass!);
                         Navigator.push(
                             context,
                             MaterialPageRoute(
@@ -187,42 +116,13 @@ class _SignUpPageState extends State<SignUpPage> {
                   textColor: Colors.white,
                   hPadding: 60.w,
                 ),
-                SizedBox(
-                  height: 10.h,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      "Already have an account?",
-                      style: TextStyle(color: Colors.grey, fontSize: 15.sp),
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.pop(context);
-                      },
-                      child: Text(
-                        " Sign in",
-                        style: TextStyle(color: primaryColor, fontSize: 16.sp),
-                      ),
-                    ),
-                  ],
-                ),
+                SizedBox(height: 10.h),
+                const HaveAccountRow(),
               ],
             ),
           ),
         ),
       ),
     );
-  }
-
-  Future<void> registerUser()  async {
-    await FirebaseAuth.instance
-          .createUserWithEmailAndPassword(email: email!, password: pass!);
-    CollectionReference users = FirebaseFirestore.instance.collection("users");
-    await users.doc(email).set({
-      'email': email,
-    });
-
   }
 }

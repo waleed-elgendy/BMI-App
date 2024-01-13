@@ -48,10 +48,8 @@ class IntroPage extends StatelessWidget {
                     ));
               },
             ),
-            SizedBox(
-              height: 15.h,
-            ),
-             CustomButton(
+            SizedBox(height: 15.h),
+            CustomButton(
               text: "Sign up",
               color: Colors.white,
               textColor: Colors.black,
