@@ -2,18 +2,15 @@
 
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:bmi_app/helper/show_snack_bar.dart';
-import 'package:bmi_app/pages/intro_page.dart';
+import 'package:bmi_app/helper/store_result_function.dart';
 import 'package:bmi_app/shared/age_card.dart';
 import 'package:bmi_app/shared/constants.dart';
 import 'package:bmi_app/shared/custom_button.dart';
 import 'package:bmi_app/shared/gender_row.dart';
 import 'package:bmi_app/shared/height_weight_card.dart';
-import 'package:bmi_app/shared/result_card.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:bmi_app/shared/logout_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class BMICalculatorPage extends StatefulWidget {
   const BMICalculatorPage({Key? key, required this.user}) : super(key: key);
@@ -47,6 +44,7 @@ class _BMICalculatorPageState extends State<BMICalculatorPage> {
         scrolledUnderElevation: 0,
         elevation: 0,
         backgroundColor: Colors.transparent,
+        centerTitle: true,
         title: Text(
           "BMI Calculator",
           style: TextStyle(
@@ -54,28 +52,8 @@ class _BMICalculatorPageState extends State<BMICalculatorPage> {
               fontWeight: FontWeight.bold,
               fontSize: 32.sp),
         ),
-        centerTitle: true,
-        actions: [
-          IconButton(
-              onPressed: () async {
-                Future.wait([
-                  FirebaseAuth.instance.signOut(),
-                  SharedPreferences.getInstance().then((sharedPrefValue) {
-                    sharedPrefValue.remove('token');
-                  })
-                ]);
-                Navigator.pushAndRemoveUntil(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const IntroPage(),
-                    ),
-                    (route) => false);
-              },
-              icon: Icon(
-                Icons.logout,
-                color: primaryColor,
-                size: 32.r,
-              ))
+        actions: const [
+          LogOutButton()
         ],
       ),
       body: Padding(
@@ -102,7 +80,7 @@ class _BMICalculatorPageState extends State<BMICalculatorPage> {
                   } else {
                     if (formKey.currentState!.validate()) {
                       try {
-                        await storeResult(context);
+                        await storeResult(context,widget.user);
                       } catch (e) {
                         showSnackBar(
                           context,
@@ -122,29 +100,5 @@ class _BMICalculatorPageState extends State<BMICalculatorPage> {
       ),
     );
   }
-
-  Future<void> storeResult(BuildContext context) async {
-    bmi = (weight / (height / 100 * height / 100));
-    CollectionReference users =
-        FirebaseFirestore.instance.collection("users/${widget.user}/results");
-    users.doc(DateTime.now().toString()).set({
-      "age": age,
-      "weight": weight,
-      "height": height,
-      "result": bmi,
-      "time": DateTime.now()
-    });
-    controller1.clear();
-    controller2.clear();
-    controller3.clear();
-    showDialog(
-      context: context,
-      builder: (context) {
-        return ResultCard(
-          maleSelected: maleSelected,
-          bmi: bmi,
-        );
-      },
-    );
-  }
 }
+
