@@ -43,55 +43,59 @@ class _BMICalculatorPageState extends State<BMICalculatorPage> {
         padding: EdgeInsets.symmetric(horizontal: 30.w),
         child: Form(
           key: formKey,
-          child: ListView(
-            children: [
-              const GenderRow(),
-              SizedBox(height: 12.h),
-              AgeCard(
-                controller1: controller1,
-                onchange: (data) {
-                  age = double.parse(data);
-                },
-              ),
-              SizedBox(height: 10.h),
-              HeightAndWeightCard(
-                controller2: controller2,
-                controller3: controller3,
-                onchange1: (data) {
-                  height = double.parse(data);
-                },
-                onchange2: (data) {
-                  weight = double.parse(data);
-                },
-              ),
-              SizedBox(height: 15.h),
-              CustomButton(
-                text: "Calculate",
-                color: primaryColor,
-                textColor: Colors.white,
-                hPadding: 32.w,
-                onTap: () async {
-                  if (!maleSelected && !femaleSelected) {
-                    showSnackBar(context, "please choose your gender",
-                        "failed to calculate BMI", ContentType.failure);
-                  } else {
-                    if (formKey.currentState!.validate()) {
-                      try {
-                        await storeResult(context, widget.user);
-                      } catch (e) {
-                        showSnackBar(
-                          context,
-                          "try again",
-                          "failed",
-                          ContentType.failure,
-                        );
+          child: SingleChildScrollView(
+            reverse: true,
+            child: Column(
+              children: [
+                const GenderRow(),
+                SizedBox(height: 12.h),
+                AgeCard(
+                  controller1: controller1,
+                  onchange: (data) {
+                    age = double.parse(data);
+                  },
+                ),
+                SizedBox(height: 10.h),
+                HeightAndWeightCard(
+                  controller2: controller2,
+                  controller3: controller3,
+                  onchange1: (data) {
+                    height = double.parse(data);
+                  },
+                  onchange2: (data) {
+                    weight = double.parse(data);
+                  },
+                ),
+                SizedBox(height: 15.h),
+                CustomButton(
+                  text: "Calculate",
+                  color: primaryColor,
+                  textColor: Colors.white,
+                  hPadding: 32.w,
+                  onTap: () async {
+                    if (!maleSelected && !femaleSelected) {
+                      showSnackBar(context, "please choose your gender",
+                          "failed to calculate BMI", ContentType.failure);
+                    } else {
+                      if (formKey.currentState!.validate()) {
+                        FocusScope.of(context).unfocus();
+                        try {
+                          await storeResult(context, widget.user);
+                        } catch (e) {
+                          showSnackBar(
+                            context,
+                            "try again",
+                            "failed",
+                            ContentType.failure,
+                          );
+                        }
                       }
                     }
-                  }
-                },
-              ),
-              SizedBox(height: 15.h),
-            ],
+                  },
+                ),
+                SizedBox(height: 10.h),
+              ],
+            ),
           ),
         ),
       ),

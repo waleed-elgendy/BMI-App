@@ -44,6 +44,8 @@ class _SignUpPageState extends State<SignUpPage> {
           child: Form(
             key: formKey,
             child: ListView(
+              shrinkWrap: true,
+              reverse: true,
               padding: EdgeInsets.zero,
               children: [
                 Center(
@@ -124,7 +126,7 @@ class _SignUpPageState extends State<SignUpPage> {
                 SizedBox(height: 10.h),
                 const HaveAccountRow(),
                 SizedBox(height: 15.h),
-              ],
+              ].reversed.toList(),
             ),
           ),
         ),

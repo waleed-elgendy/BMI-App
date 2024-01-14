@@ -8,21 +8,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class HomePage extends StatefulWidget {
-   HomePage({Key? key, required this.user,required this.selectIndex}) : super(key: key);
+  HomePage({Key? key, required this.user, required this.selectIndex})
+      : super(key: key);
   final String user;
   int selectIndex = 0;
   @override
   State<HomePage> createState() => _HomePageState();
 }
 
-
-
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     List<Widget> pages = [
       BMICalculatorPage(user: widget.user),
-       PastResultPage(user: widget.user)
+      PastResultPage(user: widget.user)
     ];
     return Scaffold(
       backgroundColor: Colors.grey.shade200,
@@ -32,24 +31,20 @@ class _HomePageState extends State<HomePage> {
         backgroundColor: Colors.transparent,
         centerTitle: true,
         title: Text(
-          widget.selectIndex==0?"BMI Calculator":"Your Results",
+          widget.selectIndex == 0 ? "BMI Calculator" : "Your Results",
           style: TextStyle(
               color: Colors.black,
               fontWeight: FontWeight.bold,
               fontSize: 32.sp),
         ),
-        actions: const [
-          LogOutButton()
-        ],
+        actions: const [LogOutButton()],
       ),
       bottomNavigationBar: BottomNavBar(
-        selectIndex:widget.selectIndex,
+        selectIndex: widget.selectIndex,
         onTap: (index) {
-          setState(
-            () {
-              widget.selectIndex = index;
-            },
-          );
+          setState(() {
+            widget.selectIndex = index;
+          });
         },
       ),
       body: pages[widget.selectIndex],
